@@ -1016,6 +1016,7 @@ MonoBehaviour:
   driftFactor: 0.3
   accelerationFactor: 5
   turnFactor: 5
+  maxSpeed: 10
 --- !u!50 &1823203161
 Rigidbody2D:
   serializedVersion: 4
