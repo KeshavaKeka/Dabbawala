@@ -46,19 +46,36 @@ public class PlayerController : MonoBehaviour
     void ApplyForce()
     {
         velocityVsUp = Vector2.Dot(transform.up, rb.velocity);
+
         if (velocityVsUp > maxSpeed && accelerationInput > 0)
             return;
-        if (velocityVsUp < -maxSpeed * 0.25 && accelerationInput < 0)
+
+        if (velocityVsUp < -maxSpeed * 0.25f && accelerationInput < 0)
             return;
+
         if (rb.velocity.sqrMagnitude > maxSpeed * maxSpeed && accelerationInput > 0)
             return;
+
         if (accelerationInput == 0)
+        {
             rb.drag = Mathf.Lerp(rb.drag, 10.0f, Time.fixedDeltaTime);
+        }
         else
-            rb.drag = 0;
+        {
+            if ((velocityVsUp > 0 && accelerationInput < 0) || (velocityVsUp < 0 && accelerationInput > 0))
+            {
+                rb.drag = Mathf.Lerp(rb.drag, 10.0f, Time.fixedDeltaTime);
+            }
+            else
+            {
+                rb.drag = 0;
+            }
+        }
+
         Vector2 engineForceVector = transform.up * accelerationInput * accelerationFactor;
         rb.AddForce(engineForceVector, ForceMode2D.Force);
     }
+
 
     void ApplySteering()
     {
